@@ -9,10 +9,7 @@
 #include"ParticleManager.h"
 
 void GamePlayScene::Finalize() {
-    // パーティクルマネージャの開放
-  //  ParticleManager::GetInstance()->Finalize();
 }
-
 void GamePlayScene::Initialize() {
     // テクスチャを読み込む
     TextureManager::GetInstance()->LoadTexture("Resources/uvChecker.png");
@@ -63,8 +60,8 @@ void GamePlayScene::Update() {
     // デモウィンドウの表示
     //ImGui::ShowDemoWindow();
 
-    //sprite->DebugUpdate();
-    //object->DebugUpdate();
+    sprite->DebugUpdate();
+    object->DebugUpdate();
 
     ParticleManager::GetInstance()->DebugUpdata();
     
@@ -102,7 +99,7 @@ void GamePlayScene::Update() {
     // パーティクルの更新処理
     ParticleManager::GetInstance()->Update();
 
-    //object->Update();
+    object->Update();
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-----------------------------------3Dオブジェクトの更新処理の終了------------------------------------------*/
@@ -112,7 +109,7 @@ void GamePlayScene::Update() {
     /*---------------------------------------Spriteの更新処理----------------------------------------------*/
     /*---------------------------------------------------------------------------------------------------*/
 
- //   sprite->Update();
+    sprite->Update();
 
     /*----------------------------------------------------------------------------------------------------*/
     /*-------------------------------------Spriteの更新処理終了----------------------------------------------*/
@@ -129,7 +126,7 @@ void GamePlayScene::Draw() {
     Object3dCommon::GetInstance()->Commondrawing();
 
 
-  //  object->Draw();
+    object->Draw();
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-------------------------------------パーティクルの更新処理の開始------------------------------------------*/
@@ -154,7 +151,7 @@ void GamePlayScene::Draw() {
     // Spriteの描画準備。Spriteの描画に共通のグラフィックスコマンドを積む
     SpriteCommon::GetInstance()->Commondrawing();
 
-   // sprite->Draw();
+    sprite->Draw();
 
     /*----------------------------------------------------------------------------------------------------*/
     /*------------------------------------Spriteの描画処理終了----------------------------------------------*/
