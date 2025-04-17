@@ -9,8 +9,7 @@
 #include"ParticleManager.h"
 
 void GamePlayScene::Finalize() {
-    // パーティクルマネージャの開放
-  //  ParticleManager::GetInstance()->Finalize();
+
 }
 
 void GamePlayScene::Initialize() {
@@ -41,7 +40,7 @@ void GamePlayScene::Initialize() {
     ParticleManager::GetInstance()->CreateParticles("Resources", ModelPath01);
     // パーティクルグループとテクスチャ生成
     ParticleManager::GetInstance()->CreateParticleGroup("Particles", "Resources/uvChecker.png");
-    ////ParticleManager::GetInstance()->CreateParticleGroup("circles", "Resources/circle.png");
+    ParticleManager::GetInstance()->CreateParticleGroup("circles", "Resources/circle.png");
 
     emitter = new ParticleEmitter(       
         Vector3{ 0.0f, -0.5f, 0.0f }, // 位置
@@ -63,8 +62,8 @@ void GamePlayScene::Update() {
     // デモウィンドウの表示
     //ImGui::ShowDemoWindow();
 
-    //sprite->DebugUpdate();
-    //object->DebugUpdate();
+    sprite->DebugUpdate();
+    object->DebugUpdate();
 
     ParticleManager::GetInstance()->DebugUpdata();
     
@@ -129,7 +128,7 @@ void GamePlayScene::Draw() {
     Object3dCommon::GetInstance()->Commondrawing();
 
 
-  //  object->Draw();
+    object->Draw();
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-------------------------------------パーティクルの更新処理の開始------------------------------------------*/
@@ -154,7 +153,7 @@ void GamePlayScene::Draw() {
     // Spriteの描画準備。Spriteの描画に共通のグラフィックスコマンドを積む
     SpriteCommon::GetInstance()->Commondrawing();
 
-   // sprite->Draw();
+    sprite->Draw();
 
     /*----------------------------------------------------------------------------------------------------*/
     /*------------------------------------Spriteの描画処理終了----------------------------------------------*/
