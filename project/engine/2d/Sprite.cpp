@@ -190,7 +190,7 @@ void Sprite::DebugUpdate() {
 	// 座標
 	ImGui::SliderFloat2("position", &position_.x, 0.0f, 1000.0f, "%.01f");
 	// カラー
-	ImGui::ColorEdit3("color", reinterpret_cast<float*>(&materialData->color));
+	ImGui::ColorEdit4("color", reinterpret_cast<float*>(&materialData->color));
 	// 終了
 	ImGui::End();
 #endif // USE_IMGUI

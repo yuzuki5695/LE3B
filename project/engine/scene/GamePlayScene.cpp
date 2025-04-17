@@ -35,24 +35,24 @@ void GamePlayScene::Initialize() {
     // object3dの初期化
     object = Object3d::Create(ModelPath01, transform_);
     
-    // パーティクル
-    // モデル生成
-    ParticleManager::GetInstance()->CreateParticles("Resources", ModelPath01);
-    // パーティクルグループとテクスチャ生成
-    ParticleManager::GetInstance()->CreateParticleGroup("Particles", "Resources/uvChecker.png");
-    ParticleManager::GetInstance()->CreateParticleGroup("circles", "Resources/circle.png");
+    //// パーティクル
+    //// モデル生成
+    //ParticleManager::GetInstance()->CreateParticles("Resources", ModelPath01);
+    //// パーティクルグループとテクスチャ生成
+    //ParticleManager::GetInstance()->CreateParticleGroup("Particles", "Resources/uvChecker.png");
+    //ParticleManager::GetInstance()->CreateParticleGroup("circles", "Resources/circle.png");
 
-    emitter = new ParticleEmitter(       
-        Vector3{ 0.0f, -0.5f, 0.0f }, // 位置
-        3.0f,                         // 発生周期 or 寿命（自由に定義可能）
-        0.0f,                         // 経過時間（基本は0から開始）
-        10,                           // 発生数
-        "Particles",                  // パーティクルグループ名
-        Vector3{ 0.1f, 0.0f, 0.0f }  // ← 風
-    );
+    //emitter = new ParticleEmitter(       
+    //    Vector3{ 0.0f, -0.5f, 0.0f }, // 位置
+    //    3.0f,                         // 発生周期 or 寿命（自由に定義可能）
+    //    0.0f,                         // 経過時間（基本は0から開始）
+    //    10,                           // 発生数
+    //    "Particles",                  // パーティクルグループ名
+    //    Vector3{ 0.1f, 0.0f, 0.0f }  // ← 風
+    //);
 
-    // 一度だけ発生させる（もしくは毎フレームUpdateで発生させてもOK）
-    emitter->Emit();
+    //// 一度だけ発生させる（もしくは毎フレームUpdateで発生させてもOK）
+    //emitter->Emit();
 
 #pragma endregion 最初のシーンの初期化
 }
@@ -65,43 +65,43 @@ void GamePlayScene::Update() {
     sprite->DebugUpdate();
     object->DebugUpdate();
 
-    ParticleManager::GetInstance()->DebugUpdata();
+    //ParticleManager::GetInstance()->DebugUpdata();
     
-    if (ImGui::Button("Add Particles")) {
-        emitter->Emit(); // ボタンが押された瞬間に1回だけEmit
-    }
-    static bool Emitfige = true;
+    //if (ImGui::Button("Add Particles")) {
+    //    emitter->Emit(); // ボタンが押された瞬間に1回だけEmit
+    //}
+    //static bool Emitfige = true;
 
-    if (ImGui::Button("Emit Switching")) {
-        Emitfige = !Emitfige;  // ボタンが押されたらON/OFFを切り替え
-        Vector3 wind = Emitfige ? Vector3{ 0.01f, 0.0f, 0.0f } : Vector3{ 0.0f, 0.0f, 0.0f };
+    //if (ImGui::Button("Emit Switching")) {
+    //    Emitfige = !Emitfige;  // ボタンが押されたらON/OFFを切り替え
+    //    Vector3 wind = Emitfige ? Vector3{ 0.01f, 0.0f, 0.0f } : Vector3{ 0.0f, 0.0f, 0.0f };
 
-        delete emitter; // 前のエミッター削除（メモリリーク対策）
-        emitter = new ParticleEmitter(
-            Vector3{ 0.0f, -0.5f, 0.0f },
-            3.0f,
-            0.0f,
-            10,
-            "Particles",
-            wind
-        );
-    }
+    //    delete emitter; // 前のエミッター削除（メモリリーク対策）
+    //    emitter = new ParticleEmitter(
+    //        Vector3{ 0.0f, -0.5f, 0.0f },
+    //        3.0f,
+    //        0.0f,
+    //        10,
+    //        "Particles",
+    //        wind
+    //    );
+    //}
 
-    ImGui::Checkbox("Emit", &Emitfige);  // 状態表示用（任意）
+    //ImGui::Checkbox("Emit", &Emitfige);  // 状態表示用（任意）
 #pragma endregion ImGuiの更新処理終了  
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-----------------------------------3Dオブジェクトの更新処理の開始------------------------------------------*/
     /*------------------------------------------------------------------------------------------------------*/
 
-    if (Emitfige) { 
-        emitter->Update();
-    }
+    //if (Emitfige) { 
+    //    emitter->Update();
+    //}
 
-    // パーティクルの更新処理
-    ParticleManager::GetInstance()->Update();
+    //// パーティクルの更新処理
+    //ParticleManager::GetInstance()->Update();
 
-    //object->Update();
+    object->Update();
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-----------------------------------3Dオブジェクトの更新処理の終了------------------------------------------*/
@@ -110,8 +110,8 @@ void GamePlayScene::Update() {
     /*----------------------------------------------------------------------------------------------------*/
     /*---------------------------------------Spriteの更新処理----------------------------------------------*/
     /*---------------------------------------------------------------------------------------------------*/
-
- //   sprite->Update();
+ 
+    sprite->Update();
 
     /*----------------------------------------------------------------------------------------------------*/
     /*-------------------------------------Spriteの更新処理終了----------------------------------------------*/
@@ -136,8 +136,8 @@ void GamePlayScene::Draw() {
     // パーティクルの描画準備。パーティクルの描画に共通のグラフィックスコマンドを積む
     ParticleManager::GetInstance()->Commondrawing();
 
-    // パーティクルの描画処理  
-    ParticleManager::GetInstance()->Draw();
+    //// パーティクルの描画処理  
+    //ParticleManager::GetInstance()->Draw();
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-------------------------------------パーティクルの更新処理の開始------------------------------------------*/
