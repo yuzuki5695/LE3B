@@ -30,5 +30,5 @@ private: // メンバ変数
     Transform transform_;
     // エミッター生成
     ParticleEmitter* emitter;
-    Vector3 windPower;
+    //Vector3 windPower;
 };

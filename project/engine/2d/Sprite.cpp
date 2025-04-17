@@ -110,6 +110,7 @@ void Sprite::Update() {
 	indexData[0] = 0; indexData[1] = 1; indexData[2] = 2;
 	indexData[3] = 1; indexData[4] = 3; indexData[5] = 2;
 
+	/*--------------------------------------------*/
 	/*-------WrldViewProjectionMatrixを作る--------*/
 	/*--------------------------------------------*/
 	Matrix4x4 worludMatrixSprite = MakeAftineMatrix(transform.scale, transform.rotate, transform.translate);
@@ -118,6 +119,15 @@ void Sprite::Update() {
 	Matrix4x4 worldViewProjectionMatrixSprite = Multiply(worludMatrixSprite, Multiply(viewMatrixSprite, projectionMatrixSprite));
 	transformationMatrixData->World = worludMatrixSprite;
 	transformationMatrixData->WVP = worldViewProjectionMatrixSprite;
+
+
+	/*----------------------------------------*/
+	/*---------UVTransform用の行列を作る--------*/
+	/*----------------------------------------*/
+	Matrix4x4 uvTransformMatrix = MakeScaleMatrix(uvTransform.scale);
+	uvTransformMatrix = Multiply(uvTransformMatrix, MakeRotateZMatrix(uvTransform.rotate.z));
+	uvTransformMatrix = Multiply(uvTransformMatrix, MakeTranslateMatrix(uvTransform.translate));
+	materialData->uvTransform = uvTransformMatrix;
 
 	transform.translate = { position_.x,position_.y,0.0f };
 	transform.rotate = { 0.0f,0.0f,rotation_ };
@@ -190,7 +200,13 @@ void Sprite::DebugUpdate() {
 	// 座標
 	ImGui::SliderFloat2("position", &position_.x, 0.0f, 1000.0f, "%.01f");
 	// カラー
-	ImGui::ColorEdit3("color", reinterpret_cast<float*>(&materialData->color));
+	ImGui::ColorEdit4("color", reinterpret_cast<float*>(&materialData->color));
+	// UV座標の変更
+	ImGui::DragFloat2("UVTranslate", &uvTransform.translate.x, 0.01f, -10.0f, 10.0f);
+	// UVの大きさの変更
+	ImGui::DragFloat2("UVScale", &uvTransform.scale.x, 0.01f, -10.0f, 10.0f);
+	// UVの回転の変更
+	ImGui::SliderAngle("UVRotate", &uvTransform.rotate.z);
 	// 終了
 	ImGui::End();
 #endif // USE_IMGUI

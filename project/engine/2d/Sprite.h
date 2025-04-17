@@ -82,6 +82,8 @@ private: // メンバ変数
 
 	// トランスフォーム
 	Transform transform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	// UVトランスフォーム
+	Transform  uvTransform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 	Vector2 position_{};
 	float rotation_;
