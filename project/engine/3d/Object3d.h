@@ -21,6 +21,11 @@ public: // メンバ関数
 		Vector3 direction; //!< ライトの向き
 		float intensity; //!< 輝度
 	};
+	// カメラデータ
+	struct CameraForGPU
+	{
+		Vector3 worldPosition;
+	};
 public: // メンバ関数
 	// 初期化
 	void Initialize(Object3dCommon* object3dCommon);
@@ -39,6 +44,8 @@ private:
 	void TransformationMatrixGenerate();
 	// 平行光源リソース
 	void DirectionalLightGenerate();
+	// カメラリソース
+	void CameraForGPUGenerate();
 private:
 	// ポインタ
 	Object3dCommon* object3dCommon = nullptr;
@@ -47,9 +54,11 @@ private:
 	// バッファリソース
 	Microsoft::WRL::ComPtr <ID3D12Resource> transformationMatrixResource;
 	Microsoft::WRL::ComPtr <ID3D12Resource> directionalLightResource;
+	Microsoft::WRL::ComPtr<ID3D12Resource> cameraResource;
 	// バッファリソース内のデータを指すポインタ
 	TransformationMatrix* transformationMatrixData = nullptr;
 	DirectionalLight* directionalLightDate = nullptr;
+	CameraForGPU* cameraForGPUData = nullptr;
 
 	Transform transform_;
 public:
