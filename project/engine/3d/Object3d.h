@@ -61,6 +61,7 @@ private:
 	CameraForGPU* cameraForGPUData = nullptr;
 
 	Transform transform_;
+	Transform  cameratransform{ {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-800.0f} };
 public:
 	// getter
 	const Transform& GetTransform() const { return transform_; }

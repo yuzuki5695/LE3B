@@ -23,6 +23,7 @@ void Camera::Update() {
 	viewMatrix = Inverse(worludMatrix);
 	projectionMatrix = MakePerspectiveFovMatrix(fovY, aspectRatio, nearClip, farclip);
 	ViewProjectionMatrix = Multiply(viewMatrix, projectionMatrix);
+
 }
 
 void Camera::DebugUpdata() {

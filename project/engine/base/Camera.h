@@ -6,6 +6,12 @@
 class Camera
 {
 public: // メンバ関数
+	struct CameraForGPU {
+		Matrix4x4 view;
+		Matrix4x4 projection;
+		Matrix4x4 viewProjection;
+	};
+
 	// コントラクタ
 	Camera();
 	// 更新処理

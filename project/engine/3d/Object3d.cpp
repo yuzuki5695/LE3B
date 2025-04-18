@@ -24,12 +24,17 @@ void Object3d::Initialize(Object3dCommon* object3dCommon) {
 
 void Object3d::Update() {
     Matrix4x4 worludMatrix = MakeAftineMatrix(transform_.scale, transform_.rotate, transform_.translate);
+    Matrix4x4 cameraMatrix = MakeAftineMatrix(cameratransform.scale, cameratransform.rotate, cameratransform.translate);
+    Matrix4x4 viewMatrix = Inverse(cameraMatrix);
+
     Matrix4x4 worldViewProjectionMatrix;
     if (camera) {
         const Matrix4x4& viewProjectionMatrix = camera->GetViewProjectionMatrix();
         worldViewProjectionMatrix = Multiply(worludMatrix, viewProjectionMatrix);
     } else {
-        worldViewProjectionMatrix = worludMatrix;
+        //worldViewProjectionMatrix = worludMatrix;
+        Matrix4x4 projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(WinApp::kClientWidth) / float(WinApp::kClientHeight), 0.1f, 100.0f);
+        worldViewProjectionMatrix = Multiply(worludMatrix, Multiply(viewMatrix, projectionMatrix));
     }
     transformationMatrixData->World = worludMatrix;
     transformationMatrixData->WVP = worldViewProjectionMatrix;
@@ -40,8 +45,8 @@ void Object3d::Draw() {
     object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResource->GetGPUVirtualAddress());
     // 平行光源用のCBufferの場所を設定 
     object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
-    ////  カメラの場所を設定
-    //object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResource->GetGPUVirtualAddress());
+    //  カメラの場所を設定
+    object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResource->GetGPUVirtualAddress());
 
     // 3Dモデルが割り当てられていれば描画する
     if (model) {
@@ -74,7 +79,6 @@ void Object3d::CameraForGPUGenerate() {
     // カメラ用リソースを作る
     cameraResource = object3dCommon->GetDxCommon()->CreateBufferResource(sizeof(Object3d::CameraForGPU));
     // 書き込むためのアドレスを取得
-    cameraForGPUData = nullptr;
     cameraResource->Map(0, nullptr, reinterpret_cast<void**>(&cameraForGPUData));
     // 単位行列を書き込んでおく
     cameraForGPUData->worldPosition = { 0.0f, 0.0f, -500.0f };
