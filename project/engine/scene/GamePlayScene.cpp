@@ -20,6 +20,7 @@ void GamePlayScene::Initialize() {
 
     // .objファイルからモデルを読み込む
     ModelManager::GetInstance()->LoadModel("plane.obj");
+    ModelManager::GetInstance()->LoadModel("axis.obj");
     ModelManager::GetInstance()->LoadModel("fence.obj");
     // 変数に代入
     ModelPath01 = "plane.obj";
@@ -33,7 +34,7 @@ void GamePlayScene::Initialize() {
 
     // object3dの初期化
     object = Object3d::Create(ModelPath01, transform_);
-    
+
     //// パーティクル
     //// モデル生成
     //ParticleManager::GetInstance()->CreateParticles("Resources", ModelPath01);
@@ -61,7 +62,7 @@ void GamePlayScene::Update() {
     // デモウィンドウの表示
     //ImGui::ShowDemoWindow();
 
-    sprite->DebugUpdate();
+    //sprite->DebugUpdate();
     object->DebugUpdate();
 
     //ParticleManager::GetInstance()->DebugUpdata();
@@ -110,7 +111,7 @@ void GamePlayScene::Update() {
     /*---------------------------------------Spriteの更新処理----------------------------------------------*/
     /*---------------------------------------------------------------------------------------------------*/
  
-    sprite->Update();
+   // sprite->Update();
 
     /*----------------------------------------------------------------------------------------------------*/
     /*-------------------------------------Spriteの更新処理終了----------------------------------------------*/
@@ -152,7 +153,7 @@ void GamePlayScene::Draw() {
     // Spriteの描画準備。Spriteの描画に共通のグラフィックスコマンドを積む
     SpriteCommon::GetInstance()->Commondrawing();
 
-    sprite->Draw();
+    //sprite->Draw();
 
     /*----------------------------------------------------------------------------------------------------*/
     /*------------------------------------Spriteの描画処理終了----------------------------------------------*/
