@@ -31,7 +31,6 @@ void GamePlayScene::Initialize() {
     // スプライトの初期化
     sprite = Sprite::Create("Resources/uvChecker.png", { 100.0f,100.0f }, 0.0f, { 360.0f,360.0f });
 
-
     // object3dの初期化
     object = Object3d::Create(ModelPath01, transform_);
     
