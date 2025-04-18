@@ -40,8 +40,8 @@ void Object3d::Draw() {
     object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResource->GetGPUVirtualAddress());
     // 平行光源用のCBufferの場所を設定 
     object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
-    //  カメラの場所を設定
-    object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResource->GetGPUVirtualAddress());
+    ////  カメラの場所を設定
+    //object3dCommon->GetDxCommon()->GetCommandList()->SetGraphicsRootConstantBufferView(4, cameraResource->GetGPUVirtualAddress());
 
     // 3Dモデルが割り当てられていれば描画する
     if (model) {
