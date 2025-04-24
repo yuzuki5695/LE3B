@@ -84,9 +84,13 @@ void ParticleManager::Update() {
             particleIterator->transform.translate.y += particleIterator->Velocity.y;
 
             // world行列の計算
-            Matrix4x4 scaleMatrix = MakeScaleMatrix((*particleIterator).transform.scale);
-            Matrix4x4 translateMatrix = MakeTranslateMatrix((*particleIterator).transform.translate);
-            Matrix4x4 worldMatrix = Multiply(Multiply(scaleMatrix, billboardMatrix), translateMatrix);
+            Matrix4x4 localWorld = MakeAftineMatrix(
+                particleIterator->transform.scale,
+                particleIterator->transform.rotate,
+                particleIterator->transform.translate
+            );
+            
+            Matrix4x4 worldMatrix = Multiply(localWorld, billboardMatrix);  // ビルボードと合成
 
             // worldViewProjection行列の計算
             Matrix4x4 worldViewProjectionMatrix = Multiply(worldMatrix, Multiply(viewMatrix, projectionMatrix));
@@ -342,29 +346,34 @@ void ParticleManager::Emit(const std::string name, const Vector3& position, uint
         count = static_cast<uint32_t>(MaxInstanceCount - currentParticleCount);
     }
 
-    std::uniform_real_distribution<float> dist(-1.5f, 1.5f);
+    std::uniform_real_distribution<float> dist(0.0f, 0.0f);
     std::uniform_real_distribution<float> distColor(0.0f, 1.0f);
-    std::uniform_real_distribution<float> distVelocity(-0.001f, 0.001f);
+    std::uniform_real_distribution<float> distVelocity(-0.001f, 0.001f); 
+    std::uniform_real_distribution<float> distRotate(-std::numbers::pi_v<float>, std::numbers::pi_v<float>);
+    std::uniform_real_distribution<float> distScale(0.4f,1.5f);
 
     for (uint32_t i = 0; i < count; ++i) {
         Vector3 offset(dist(randomEngine), dist(randomEngine), dist(randomEngine));
         Vector4 color = Vector4(distColor(randomEngine), distColor(randomEngine), distColor(randomEngine), 1.0f);
+        Vector3 rotate = Vector3(0.0f, 0.0f, distRotate(randomEngine));
+        Vector3 scale = Vector3(0.05f, distScale(randomEngine), 1.0f);
 
         Particle newParticle;
         newParticle.transform.translate = { position.x + offset.x, position.y + offset.y, position.z + offset.z };
-        newParticle.transform.rotate = { 0.0f, 0.0f, 0.0f };
-        newParticle.transform.scale = { 1.0f, 1.0f, 1.0f };
+        newParticle.transform.rotate = rotate;
+        newParticle.transform.scale = scale;
         newParticle.color = color;
         newParticle.lifetime = 3.0f;
         newParticle.currentTime = 0.0f;
+        newParticle.Velocity = Vector3(0.0f,0.0f,0.0f);
 
-        // 風の影響（X方向）を追加
-        float randomX = distVelocity(randomEngine);
-        newParticle.Velocity = {
-            Velocity.x + randomX,  // ← 風 + 微調整
-            distVelocity(randomEngine),
-            0.0f
-        };
+        //// 風の影響（X方向）を追加
+        //float randomX = distVelocity(randomEngine);
+        //newParticle.Velocity = {
+        //    Velocity.x + randomX,  // ← 風 + 微調整
+        //    distVelocity(randomEngine),
+        //    0.0f
+        //};
 
         group.particles.push_back(newParticle);
     }

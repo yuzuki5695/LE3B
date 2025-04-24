@@ -43,12 +43,12 @@ void GamePlayScene::Initialize() {
     ParticleManager::GetInstance()->CreateParticleGroup("circles", "Resources/circle.png");
 
     emitter = new ParticleEmitter(       
-        Vector3{ 0.0f, -0.5f, 0.0f }, // 位置
-        3.0f,                         // 発生周期 or 寿命（自由に定義可能）
+        Vector3{ 0.0f, 0.0f, 0.0f }, // 位置
+        1.0f,                         // 発生周期 or 寿命（自由に定義可能）
         0.0f,                         // 経過時間（基本は0から開始）
-        10,                           // 発生数
-        "Particles",                  // パーティクルグループ名
-        Vector3{ 0.1f, 0.0f, 0.0f }  // ← 風
+        3,                           // 発生数
+        "circles",                  // パーティクルグループ名
+        Vector3{ 0.0f, 0.0f, 0.0f }  // ← 風
     );
 
     // 一度だけ発生させる（もしくは毎フレームUpdateで発生させてもOK）
@@ -62,44 +62,46 @@ void GamePlayScene::Update() {
     // デモウィンドウの表示
     //ImGui::ShowDemoWindow();
 
-    sprite->DebugUpdate();
-    object->DebugUpdate();
+    //sprite->DebugUpdate();
+    //object->DebugUpdate();
 
-    ParticleManager::GetInstance()->DebugUpdata();
-    
-    if (ImGui::Button("Add Particles")) {
-        emitter->Emit(); // ボタンが押された瞬間に1回だけEmit
-    }
-    static bool Emitfige = true;
+    //ParticleManager::GetInstance()->DebugUpdata();
+    //
+    //if (ImGui::Button("Add Particles")) {
+    //    emitter->Emit(); // ボタンが押された瞬間に1回だけEmit
+    //}
+    //static bool Emitfige = true;
 
-    if (ImGui::Button("Emit Switching")) {
-        Emitfige = !Emitfige;  // ボタンが押されたらON/OFFを切り替え
-        Vector3 wind = Emitfige ? Vector3{ 0.01f, 0.0f, 0.0f } : Vector3{ 0.0f, 0.0f, 0.0f };
+    //if (ImGui::Button("Emit Switching")) {
+    //    Emitfige = !Emitfige;  // ボタンが押されたらON/OFFを切り替え
+    //    Vector3 wind = Emitfige ? Vector3{ 0.01f, 0.0f, 0.0f } : Vector3{ 0.0f, 0.0f, 0.0f };
 
-        delete emitter; // 前のエミッター削除（メモリリーク対策）
-        emitter = new ParticleEmitter(
-            Vector3{ 0.0f, -0.5f, 0.0f },
-            3.0f,
-            0.0f,
-            10,
-            "Particles",
-            wind
-        );
-    }
+    //    delete emitter; // 前のエミッター削除（メモリリーク対策）
+    //    emitter = new ParticleEmitter(
+    //        Vector3{ 0.0f, -0.5f, 0.0f },
+    //        3.0f,
+    //        0.0f,
+    //        10,
+    //        "Particles",
+    //        wind
+    //    );
+    //}
 
-    ImGui::Checkbox("Emit", &Emitfige);  // 状態表示用（任意）
+  //  ImGui::Checkbox("Emit", &Emitfige);  // 状態表示用（任意）
 #pragma endregion ImGuiの更新処理終了  
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-----------------------------------3Dオブジェクトの更新処理の開始------------------------------------------*/
     /*------------------------------------------------------------------------------------------------------*/
 
-    if (Emitfige) { 
-        emitter->Update();
-    }
+    //if (Emitfige) { 
+    //    emitter->Update();
+    //}
 
     // パーティクルの更新処理
     ParticleManager::GetInstance()->Update();
+
+    emitter->Update();
 
     //object->Update();
 
@@ -128,7 +130,7 @@ void GamePlayScene::Draw() {
     Object3dCommon::GetInstance()->Commondrawing();
 
 
-    object->Draw();
+    //object->Draw();
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*-------------------------------------パーティクルの更新処理の開始------------------------------------------*/
@@ -153,7 +155,7 @@ void GamePlayScene::Draw() {
     // Spriteの描画準備。Spriteの描画に共通のグラフィックスコマンドを積む
     SpriteCommon::GetInstance()->Commondrawing();
 
-    sprite->Draw();
+   // sprite->Draw();
 
     /*----------------------------------------------------------------------------------------------------*/
     /*------------------------------------Spriteの描画処理終了----------------------------------------------*/
